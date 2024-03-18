@@ -26,11 +26,25 @@ router.post('/usuarios/login', async (req, res) => {
             'tuSecretKey',
             { expiresIn: '24h' }
         );
-
-        res.json({ token });
+        res.json({
+            token,
+            user: {
+                _id: usuario._id,
+                nombre: usuario.nombre,
+                apellido: usuario.apellido,
+                correo: usuario.correo,
+                tipo: usuario.tipo,
+                // Puedes agregar más campos según necesites
+            }
+        });
     } catch (error) {
         res.status(500).send('Error en el servidor');
     }
+
+    //     res.json({ token });
+    // } catch (error) {
+    //     res.status(500).send('Error en el servidor');
+    // }
 });
 
 
