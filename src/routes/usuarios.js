@@ -101,4 +101,78 @@ router.delete('/usuarios/:id', (req, res) => {
         .catch(error => res.json({ message: error }))
 })
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Endpoint para solicitar recuperación de contraseña
+router.post("/usuarios/recuperar-contraseña", async (req, res) => {
+    try {
+      const { correo } = req.body;
+  
+      // Verificar si el usuario existe en la base de datos
+      const usuario = await esquema.findOne({ correo });
+      if (!usuario) {
+        return res.status(404).json({ error: "El usuario no existe" });
+      }
+  
+      // Generar un token único y seguro para la recuperación de contraseña
+      const token = jwt.sign({ userId: usuario._id }, "contraseñaToken", {
+        expiresIn: "1h",
+      });
+  
+      // Enviar correo electrónico con el enlace de recuperación de contraseña
+      const transporter = nodemailer.createTransport({
+        service: "Gmail",
+        auth: {
+          user: "20221135@uthh.edu.mx",
+          pass: "uthhtic23",
+        },
+      });
+  
+      const mailOptions = {
+        from: "20221135@uthh.edu.mx",
+        to: correo,
+        subject: "Recuperación de Contraseña",
+        html: `
+                  <p>Hola ${usuario.nombre},</p>
+                  <p>Has solicitado restablecer tu contraseña. Haz clic en el siguiente enlace para continuar:</p>
+                  <a href="http://localhost:3000/recuperarpassword?token=${token}">Restablecer contraseña</a>
+              `,
+      };
+  
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error("Error al enviar correo electrónico:", error);
+          return res
+            .status(500)
+            .json({ message: "Error al enviar correo electrónico" });
+        }
+        console.log("Correo de recuperación enviado:", info.response);
+        res.status(200).json({ message: "Correo de recuperación enviado" });
+      });
+    } catch (error) {
+      res.status(500).send("Error en el servidor");
+    }
+  });
+  
+  // Endpoint para restablecer contraseña con el token
+  router.post("/usuarios/reset-password/:token", async (req, res) => {
+    try {
+      const { token } = req.params;
+      const { newPassword } = req.body;
+  
+      // Verificar y decodificar el token
+      const decoded = jwt.verify(token, "contraseñaToken");
+      const userId = decoded.userId;
+  
+      // Actualizar la contraseña del usuario en la base de datos
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      await esquema.findByIdAndUpdate(userId, { contraseña: hashedPassword });
+  
+      res.status(200).json({ message: "Contraseña actualizada exitosamente" });
+    } catch (error) {
+      res.status(400).json({ message: "Token inválido o expirado" });
+    }
+  });
+
+
+
 module.exports = router
