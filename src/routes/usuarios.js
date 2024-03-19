@@ -109,45 +109,48 @@ router.delete('/usuarios/:id', (req, res) => {
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'charlydhh18@gmail.com',
-      pass: 'alitasBbQ847',
+        user: 'charlydhh18@gmail.com',
+        pass: 'alitasBbQ847',
     },
-  });
-  
-  // Endpoint para solicitar recuperación de contraseña
-  router.post('/usuarios/solicitar-recuperacion', async (req, res) => {
+});
+
+// Endpoint para solicitar recuperación de contraseña
+router.post('/usuarios/solicitar-recuperacion', async (req, res) => {
     const { correo } = req.body;
     const usuario = await esquema.findOne({ correo });
-  
+
     if (!usuario) {
-      return res.status(404).json({ error: 'No se encontró un usuario con ese correo electrónico.' });
+        return res.status(404).json({ error: 'No se encontró un usuario con ese correo electrónico.' });
     }
-  
+
     const tokenRecuperacion = jwt.sign(
-      { _id: usuario._id },
-      process.env.JWT_SECRET_RECUPERACION,
-      { expiresIn: '1h' }
+        { _id: usuario._id },
+        'contraseñapass1234',
+        { expiresIn: '1h' }
     );
-  
+
     const enlaceRecuperacion = `//localhost:3000/registrarse/recuperar-contrasena/${tokenRecuperacion}`;
-  
+
     const mailOptions = {
-      from: process.env.EMAIL_USERNAME,
-      to: correo,
-      subject: 'Recuperación de Contraseña',
-      html: `<p>Hola ${usuario.nombre},</p>
-             <p>Has solicitado restablecer tu contraseña. Por favor, sigue el siguiente enlace para establecer una nueva:</p>
-             <a href="${enlaceRecuperacion}">Restablecer contraseña</a>`,
+        from: 'charlydhh18@gmail.com',
+        to: correo,
+        subject: 'Recuperación de Contraseña',
+        html: `<p>Hola ${usuario.nombre},</p>
+                <p>Has solicitado restablecer tu contraseña. Por favor, sigue el siguiente enlace para establecer una nueva:</p>
+                <a href="${enlaceRecuperacion}">Restablecer contraseña</a>`,
     };
-  
-    transporter.sendMail(mailOptions, function(error, info) {
-      if (error) {
-        return res.status(500).json({ error: 'Error al enviar el correo electrónico.' });
-      } else {
-        res.json({ message: 'Se ha enviado un correo electrónico con las instrucciones para restablecer tu contraseña.' });
-      }
+
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            return res.status(500).json({ error: 'Error al enviar el correo electrónico.' });
+        } else {
+            res.json({ message: 'Se ha enviado un correo electrónico con las instrucciones para restablecer tu contraseña.' });
+        }
     });
-  });
-  
+});
+
 
 module.exports = router
+
+// process.env.JWT_SECRET_RECUPERACION
+// process.env.EMAIL_USERNAME
