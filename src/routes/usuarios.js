@@ -109,8 +109,8 @@ router.delete('/usuarios/:id', (req, res) => {
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'charlydhh18@gmail.com',
-        pass: 'alitasBbQ847',
+        user: 'proyeqtocuatri@gmail.com',
+        pass: 'proyequi1254',
     },
 });
 
