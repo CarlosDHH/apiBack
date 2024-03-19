@@ -109,8 +109,8 @@ router.delete('/usuarios/:id', (req, res) => {
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'proyeqtocuatri@gmail.com',
-        pass: 'proyequi1254',
+        user: "proyeqtocuatri@gmail.com",
+        pass: "proyequi1254",
     },
 });
 
@@ -132,7 +132,7 @@ router.post('/usuarios/solicitar-recuperacion', async (req, res) => {
     const enlaceRecuperacion = `//localhost:3000/registrarse/recuperar-contrasena/${tokenRecuperacion}`;
 
     const mailOptions = {
-        from: 'charlydhh18@gmail.com',
+        from: "proyeqtocuatri@gmail.com",
         to: correo,
         subject: 'Recuperación de Contraseña',
         html: `<p>Hola ${usuario.nombre},</p>
