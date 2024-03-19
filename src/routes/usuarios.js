@@ -115,6 +115,7 @@ const transporter = nodemailer.createTransport({
 });
 
 // Endpoint para solicitar recuperación de contraseña
+// Endpoint para solicitar recuperación de contraseña
 router.post('/usuarios/solicitar-recuperacion', async (req, res) => {
     const { correo } = req.body;
     const usuario = await esquema.findOne({ correo });
@@ -123,16 +124,19 @@ router.post('/usuarios/solicitar-recuperacion', async (req, res) => {
         return res.status(404).json({ error: 'No se encontró un usuario con ese correo electrónico.' });
     }
 
+    // Generación del token de recuperación
     const tokenRecuperacion = jwt.sign(
         { _id: usuario._id },
-        'contraseñapass1234',
+        'contraseñapass1234', // Aquí deberías usar process.env.JWT_SECRET_RECUPERACION
         { expiresIn: '1h' }
     );
 
-    const enlaceRecuperacion = `//localhost:3000/registrarse/recuperar-contrasena/${tokenRecuperacion}`;
+    // URL de recuperación de contraseña
+    const enlaceRecuperacion = `http://localhost:3000/registrarse/recuperar-contrasena/${tokenRecuperacion}`;
 
+    // Configuración del correo electrónico
     const mailOptions = {
-        from: "proyeqtocuatri@gmail.com",
+        from: 'proyeqtocuatri@gmail.com', // Aquí deberías usar process.env.EMAIL_USERNAME
         to: correo,
         subject: 'Recuperación de Contraseña',
         html: `<p>Hola ${usuario.nombre},</p>
@@ -140,6 +144,7 @@ router.post('/usuarios/solicitar-recuperacion', async (req, res) => {
                 <a href="${enlaceRecuperacion}">Restablecer contraseña</a>`,
     };
 
+    // Envío del correo electrónico
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
             return res.status(500).json({ error: 'Error al enviar el correo electrónico.' });
