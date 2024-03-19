@@ -17,20 +17,35 @@ const user=require('./src/routes/usuarios')
 const ACCEPTEP_ORIGINS = [
     'http://localhost:3000',
 ]
+// const corsOptions = {
+//     origin: function (origin, callback) {
+//         if (!origin || ACCEPTEP_ORIGINS.includes(origin)) {
+//             callback(null, true);
+//         } else {
+//             callback(new Error('Not allowed by CORS'));
+//         }
+//     },
+// };
+
+// app.use(cors({
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+// }));
+
+//este es el apartado que modificique de los cors
+//comienza aqui
 const corsOptions = {
     origin: function (origin, callback) {
         if (!origin || ACCEPTEP_ORIGINS.includes(origin)) {
-            callback(null, true);
+            callback(null, true); // Permite la solicitud
         } else {
-            callback(new Error('Not allowed by CORS'));
+            callback(new Error('Not allowed by CORS')); // Rechaza la solicitud
         }
     },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos HTTP permitidos
 };
 
-app.use(cors({
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-}));
-
+app.use(cors(corsOptions));
+//aqui termina 
 
 //midlewares
 app.use(express.json())
