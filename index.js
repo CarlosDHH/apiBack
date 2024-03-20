@@ -52,7 +52,7 @@ app.use(cors(corsOptions));
 app.use(express.json())
 
 app.get('/',(req,res)=>{
-    res.json({"response":"Prueba de Device"})
+    res.json({"response":"Prueba de Api"})
 })
 
 app.use('/api/',device)

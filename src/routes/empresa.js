@@ -3,8 +3,8 @@ const esquema=require('../models/empresa')
 
 const routerem=express.Router()
 
-app.get('/empresa/prueba',(req,res)=>{
-    res.json({"response":"Prueba empresa"})
+routerem.get('/empresa/x', (req, res) => {
+    res.json({ "response": "Prueba Empresa" })
 })
 
 routerem.post('/empresa',(req,res)=>{
