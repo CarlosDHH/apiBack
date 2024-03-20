@@ -11,6 +11,7 @@ const device=require('./src/routes/dispositivo')
 const product=require('./src/routes/productos')
 const typeUser=require('./src/routes/tipoUsuario')
 const user=require('./src/routes/usuarios')
+const page=require('./src/routes/empresa')
 
 
 //CORES
@@ -58,6 +59,7 @@ app.use('/api/',device)
 app.use('/api/',product)
 app.use('/api/',typeUser)
 app.use('/api/',user)
+app.use('/api/',page)
 
 
 //coneccion con la base de dato
