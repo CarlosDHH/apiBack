@@ -11,8 +11,7 @@ const device=require('./src/routes/dispositivo')
 const product=require('./src/routes/productos')
 const typeUser=require('./src/routes/tipoUsuario')
 const user=require('./src/routes/usuarios')
-const empresa=require('./src/routes/empresa');
-const Empresa = require('./src/models/empresa');
+
 
 //CORES
 const ACCEPTEP_ORIGINS = [
@@ -52,15 +51,13 @@ app.use(cors(corsOptions));
 app.use(express.json())
 
 app.get('/',(req,res)=>{
-    res.json({"response":"Prueba de Api"})
+    res.json({"response":"Prueba de Device"})
 })
 
 app.use('/api/',device)
 app.use('/api/',product)
 app.use('/api/',typeUser)
 app.use('/api/',user)
-app.use('/api/',Empresa)
-
 
 
 //coneccion con la base de dato
