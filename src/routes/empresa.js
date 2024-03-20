@@ -3,6 +3,11 @@ const esquema=require('../models/empresa')
 
 const routerem=express.Router()
 
+
+routerem.get('/empresas/x', (req, res) => {
+    res.json({ "response": "Prueba empresa" })
+})
+
 routerem.post('/empresas',(req,res)=>{
     const us= esquema(req.body);
     us.save()
