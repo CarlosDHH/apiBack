@@ -11,8 +11,8 @@ const device=require('./src/routes/dispositivo')
 const product=require('./src/routes/productos')
 const typeUser=require('./src/routes/tipoUsuario')
 const user=require('./src/routes/usuarios')
-const page=require('./src/routes/empresa')
-
+const empresa=require('./src/routes/empresa');
+const Empresa = require('./src/models/empresa');
 
 //CORES
 const ACCEPTEP_ORIGINS = [
@@ -59,6 +59,7 @@ app.use('/api/',device)
 app.use('/api/',product)
 app.use('/api/',typeUser)
 app.use('/api/',user)
+app.use('/api/',Empresa)
 
 
 
