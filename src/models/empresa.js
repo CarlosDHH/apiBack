@@ -12,3 +12,6 @@ const empresaSchema=mongoose.Schema(
         contacto:{type:String,require:true},
     }
 )
+
+const Empresa=mongoose.model('Empresa',dispositivoSchema)    
+module.exports=Empresa;

@@ -55,11 +55,11 @@ app.get('/',(req,res)=>{
     res.json({"response":"Prueba de Device"})
 })
 
-app.use('/api',device)
-app.use('/api',product)
-app.use('/api',typeUser)
-app.use('/api',user)
-app.use('/api',page)
+app.use('/api/',device)
+app.use('/api/',product)
+app.use('/api/',typeUser)
+app.use('/api/',user)
+app.use('/api/',page)
 
 
 
