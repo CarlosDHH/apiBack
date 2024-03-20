@@ -59,7 +59,6 @@ app.use('/api/',device)
 app.use('/api/',product)
 app.use('/api/',typeUser)
 app.use('/api/',user)
-app.use('/api/',page)
 
 
 
