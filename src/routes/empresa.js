@@ -3,26 +3,39 @@ const esquema=require('../models/empresa')
 
 const routerem=express.Router()
 
-routerem.get('/empresa/x', (req, res) => {
-    res.json({ "response": "Prueba Empresa" })
-})
-
-routerem.post('/empresa',(req,res)=>{
+routerem.post('/empresas',(req,res)=>{
     const us= esquema(req.body);
     us.save()
     .then(data=>res.json(data))
     .catch(error=>res.json({message:error}))
 })
 
-//leer empresa
-routerem.get('/empresa',(req,res)=>{
+//leer empresas
+routerem.get('/empresas',(req,res)=>{
     esquema.find()
     .then(data=>res.json(data))
     .catch(error=>res.json({message:error}))
 })
 
-//actualizar empresa
-routerem.put('/empresa/:id',(req,res)=>{
+//buscar producto
+routerem.get('/empresas/:id',(req,res)=>{
+    const {id}=req.params
+    esquema.findById(id)
+    .then(data=>res.json(data))
+    .catch(error=>res.json({message:error}))
+})
+
+//busqueda por el categoria
+routerem.get('/empresas/categoria/:categoria',(req,res)=>{
+    const {correo} = req.params
+    esquema.findOne({ correo })
+      .then(data => res.json(data))
+      .catch(error => res.json({message:error}))
+  })
+  
+
+//actualizar producto
+routerem.put('/empresas/:id',(req,res)=>{
     const{id}=req.params;
     const{descripcion,mision,vision,valores,politicas,terminos,privacidad,contacto}=req.body
     esquema
@@ -31,8 +44,8 @@ routerem.put('/empresa/:id',(req,res)=>{
     .catch((error)=>res.json({message:error}))
 })
 
-//eliminar empresa
-routerem.delete('/empresa/:id',(req,res)=>{
+//eliminar producto
+routerem.delete('/empresas/:id',(req,res)=>{
     const{id}=req.params;
     esquema.deleteOne({_id:id})
     .then(data=>res.json(data))
