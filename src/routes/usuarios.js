@@ -8,6 +8,22 @@ const esquema = require('../models/usuarios')
 const router = express.Router()
 
 // Endpoint de inicio de sesión
+router.get('/usuarios/perfil', async (req, res) => {
+    try {
+        const token = req.headers.authorization.split(" ")[1]; // Asume que el token viene en el encabezado Authorization como "Bearer <token>"
+        const decoded = jwt.verify(token, 'tuSecretKey'); // Usa la misma clave secreta que usaste para firmar el token
+        const usuario = await esquema.findById(decoded._id); // Busca el usuario por el ID decodificado del token
+
+        if (!usuario) {
+            return res.status(404).json({ error: "Usuario no encontrado" });
+        }
+
+        res.json(usuario); // Devuelve el usuario encontrado
+    } catch (error) {
+        res.status(500).json({ error: 'Error en el servidor' });
+    }
+});
+
 router.post('/usuarios/login', async (req, res) => {
     try {
         const usuario = await esquema.findOne({ correo: req.body.correo });
