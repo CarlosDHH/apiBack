@@ -32,9 +32,9 @@ routerd.get('/dispositivo/:id',(req,res)=>{
 //actualizar dispositivo
 routerd.put('/dispositivo/:id',(req,res)=>{
     const{id}=req.params;
-    const{modelo,estado}=req.body
+    const{led,pesoAlimento,pesoAgua,nivelAlimento,nivelAgua,botonAlimento,botonAgua}=req.body
     esquema
-    .updateOne({_id:id},{$set:{modelo,estado}})
+    .updateOne({_id:id},{$set:{led,pesoAlimento,pesoAgua,nivelAlimento,nivelAgua,botonAlimento,botonAgua}})
     .then((data)=>res.json(data))
     .catch((error)=>res.json({message:error}))
 })
