@@ -36,7 +36,7 @@ routerp.get('/productos/categoria/:categoria',(req,res)=>{
   //busqueda por el nombre 
 routerp.get('/productos/nombre/:nombre',(req,res)=>{
     const {nombre} = req.params
-    esquema.findOne({ nombre })
+    esquema.find({ nombre })
       .then(data => res.json(data))
       .catch(error => res.json({message:error}))
   })
