@@ -27,12 +27,19 @@ routerp.get('/productos/:id',(req,res)=>{
 
 //busqueda por el categoria
 routerp.get('/productos/categoria/:categoria',(req,res)=>{
-    const {correo} = req.params
-    esquema.findOne({ correo })
+    const {categoria} = req.params
+    esquema.findOne({ categoria })
       .then(data => res.json(data))
       .catch(error => res.json({message:error}))
   })
   
+  //busqueda por el nombre 
+routerp.get('/productos/nombre/:nombre',(req,res)=>{
+    const {nombre} = req.params
+    esquema.findOne({ nombre })
+      .then(data => res.json(data))
+      .catch(error => res.json({message:error}))
+  })
 
 //actualizar producto
 routerp.put('/productos/:id',(req,res)=>{
