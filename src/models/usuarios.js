@@ -11,7 +11,7 @@ const usuarioSchema=mongoose.Schema(
         respuestaPregunta:{type:String,require:true},
         codigoRecuperacion:{type:String},
         //Aqui modifique el dispositivo y lo hice referenciado
-        dispositivo: [{ type: Schema.Types.ObjectId, ref: 'Dispositivo' }] // Array de 
+        dispositivos: [{ type: Schema.Types.ObjectId, ref: 'Dispositivo' }] // Array de 
     }
 )
 module.exports=mongoose.model('usuario',usuarioSchema)
