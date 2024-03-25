@@ -7,7 +7,7 @@ const dispositivoSchema=mongoose.Schema(
         nivelAlimento:{type:String,require:false},
         nivelAgua:{type:String,require:false},
         botonAlimento:{type:String,require:false},
-        botonAgua:{type:String,require:false},
+        botonAgua:{type:String,require:false},        
     }
 );
 
