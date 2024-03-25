@@ -28,7 +28,7 @@ routerd.post('/dispositivo/comando/:id', (req, res) => {
     const { id } = req.params; // ID del dispositivo
     const { comando } = req.body; // Comando enviado en el cuerpo de la solicitud
 
-    const dispositivoIdValido = "65fbf186af6bd2f92377edd3";
+    const dispositivoIdValido = "65fd3f2f52b794079f541595";
 
     // Verificar que el ID del dispositivo es el esperado
     if (id !== dispositivoIdValido) {
