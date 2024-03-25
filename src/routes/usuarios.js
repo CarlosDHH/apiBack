@@ -162,7 +162,7 @@ const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: "proyeqtocuatri@gmail.com",
-        pass: "g j q a o h y x e x s z o f j p",
+        pass: "yijo yopr ejbk jguj",
     },
 });
 // Endpoint para solicitar recuperación de contraseña
