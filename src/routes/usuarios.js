@@ -7,6 +7,45 @@ const esquema = require('../models/usuarios')
 
 const router = express.Router()
 
+//agregue dos endpoints para control de dispositivos por id 
+
+
+//Endpoint para asignar Dispositivos
+
+router.put('/usuarios/:userId/dispositivo/:dispositivoId', async (req, res) => {
+    const { userId, dispositivoId } = req.params;
+
+    try {
+        // Encuentra el usuario y añade el dispositivoId al array de dispositivos
+        await esquema.findByIdAndUpdate(userId, {
+            $addToSet: { dispositivos: dispositivoId } // Usa $addToSet para evitar duplicados
+        }, { new: true }).populate('dispositivos'); // Opcional: devuelve el usuario con los dispositivos poblados
+
+        res.json({ message: 'Dispositivo asignado correctamente.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al asignar el dispositivo.' });
+    }
+});
+
+
+//EndPoint para listar Dispositivos de un usuario 
+
+router.get('/usuarios/:userId/dispositivos', async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        const usuario = await esquema.findById(userId).populate('dispositivos');
+        if (!usuario) {
+            return res.status(404).json({ error: "Usuario no encontrado." });
+        }
+        res.json(usuario.dispositivos);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener los dispositivos.' });
+    }
+});
+
 // Endpoint de inicio de sesión
 router.get('/usuarios/perfil', async (req, res) => {
     try {
