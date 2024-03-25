@@ -25,14 +25,18 @@ routerd.get('/dispositivo',(req,res)=>{
 
 // Nuevo endpoint para enviar comandos a dispositivos específicos
 routerd.post('/dispositivo/comando/:id', (req, res) => {
-    const { id } = req.params; // ID del dispositivo (si necesario para lógica específica)
-    const { comando } = req.body; // Asume que el comando viene en el cuerpo de la solicitud
+    const { id } = req.params; // ID del dispositivo
+    const { comando } = req.body; // Comando enviado en el cuerpo de la solicitud
 
-    // Aquí deberías tener alguna lógica para asegurarte de que el comando y el ID son válidos
-    // Por ejemplo, verificar que el dispositivo existe, que el comando es soportado, etc.
+    const dispositivoIdValido = "65fbf186af6bd2f92377edd3";
 
-    // Publicar el comando al topic MQTT
-    // Asegúrate de publicar al topic correcto y formatear el mensaje según lo espera tu dispositivo
+    // Verificar que el ID del dispositivo es el esperado
+    if (id !== dispositivoIdValido) {
+        // Si el ID no coincide, enviar una respuesta de error
+        return res.status(400).json({ message: "ID de dispositivo inválido." });
+    }
+
+    // Si el ID es válido, proceder a publicar el comando al topic MQTT
     client.publish('dispensador/01', comando, (error) => {
         if(error) {
             console.error("Error al publicar mensaje MQTT", error);
@@ -41,6 +45,7 @@ routerd.post('/dispositivo/comando/:id', (req, res) => {
         res.json({ message: "Comando enviado con éxito." });
     });
 });
+
 
 //buscar dispositivo
 routerd.get('/dispositivo/:id',(req,res)=>{
