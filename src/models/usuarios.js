@@ -1,4 +1,6 @@
 const mongoose=require('mongoose')
+const { Schema } = mongoose; // Asegúrate de tener esta línea
+
 const usuarioSchema=mongoose.Schema(
     {
         nombre:{type:String,require:true},
