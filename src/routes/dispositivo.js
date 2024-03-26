@@ -21,14 +21,12 @@ client.on('message', (topic, message) => {
 
         // Actualizar la base de datos con los nuevos estados
         esquema.updateOne({_id: dispositivoId}, {$set: { 
-            led: estado.bombaEncendida ? "encendido" : "apagado",
-            pesoAlimento: estado.peso,
-            dispensando: estado.dispensando ? "si" : "no",
-            // Suponiendo que tienes campos para nivel de alimento, nivel de agua, y si los botones están activos
-            nivelAlimento: estado.nivelAlimento, // Asume que este valor se envía desde el Arduino
-            nivelAgua: estado.nivelAgua, // Asume que este valor también se envía desde el Arduino
-            botonAlimento: estado.botonAlimento ? "presionado" : "no presionado", // Asume un booleano para el botón de alimento
-            botonAgua: estado.botonAgua ? "presionado" : "no presionado" // Asume un booleano para el botón de agua
+            led: estado.led,
+            pesoAlimento: estado.pesoAlimento,
+            pesoAgua: estado.pesoAgua,
+            nivelAlimento: estado.nivelAlimento,
+            nivelAgua: estado.nivelAgua,
+            botonAlimento: estado.botonAlimento
         }})
         .then(result => console.log("Actualización exitosa", result))
         .catch(error => console.error("Error al actualizar el dispositivo", error));
