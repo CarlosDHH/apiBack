@@ -23,11 +23,11 @@ client.on('message', (topic, message) => {
         esquema.updateOne({_id: dispositivoId}, {$set: { 
             led: estado.led,
             pesoAlimento: estado.pesoAlimento,
-            pesoAgua:estado.pesoAgua,
-            nivelAlimento:estado.nivelAlimento,
-            nivelAgua:estado.nivelAgua,
-            botonAlimento:estado.botonAlimento,
-            botonAgua:estado.botonAgua
+            pesoAgua: estado.pesoAgua,
+            nivelAlimento: estado.nivelAlimento,
+            nivelAgua: estado.nivelAgua,
+            botonAlimento: estado.botonAlimento,
+            botonAgua: estado.botonAgua
         }})
         .then(result => console.log("Actualización exitosa", result))
         .catch(error => console.error("Error al actualizar el dispositivo", error));
